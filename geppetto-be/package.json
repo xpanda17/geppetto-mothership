@@ -1,0 +1,28 @@
+{
+  "name": "geppetto-be",
+  "version": "1.0.0",
+  "type": "module",
+  "imports": {
+    "#config/*": "./src/config/*.js",
+    "#controllers/*": "./src/controllers/*.js",
+    "#services/*": "./src/services/*.js",
+    "#models/*": "./src/models/*.js",
+    "#queries/*": "./src/queries/*.js",
+    "#mappers/*": "./src/mappers/*.js",
+    "#helpers/*": "./src/helpers/*.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "pg": "^8.11.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  }
+}
