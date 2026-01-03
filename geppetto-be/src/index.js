@@ -24,7 +24,7 @@ app.get('/healthz', (req, res) => {
   res.status(200).json({ status: 'ok' });
 });
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8000;
 
 sequelize.sync().then(() => {
   app.listen(PORT, () => logger.info(`Server running on port ${PORT}`));
