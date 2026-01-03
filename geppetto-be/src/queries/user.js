@@ -1,5 +1,4 @@
 import User from '#models/User';
-import { Op } from 'sequelize';
 
 export const findByUsername = (username) => {
   return User.findOne({
@@ -14,6 +13,6 @@ export const save = (user) => {
       returning: true
     });
   }
-  
+
   return User.create(user);
 };
