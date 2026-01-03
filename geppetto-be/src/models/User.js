@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
-import { BaseModel, baseAttributes } from '#models/BaseModel';
 import sequelize from '#config/db';
+import { ROLES } from '#constants/role'
+import { BaseModel, baseAttributes } from '#models/BaseModel';
 
 class User extends BaseModel {}
 
@@ -28,7 +29,7 @@ User.init({
     allowNull: false
   },
   role: {
-    type: DataTypes.ENUM('admin', 'staff'),
+    type: DataTypes.ENUM(ROLES.ADMIN, ROLES.STAFF),
     allowNull: false,
   }
 }, {

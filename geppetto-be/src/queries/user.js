@@ -6,13 +6,6 @@ export const findByUsername = (username) => {
   });
 };
 
-export const save = (user) => {
-  if (user.id) {
-    return User.update(user, {
-      where: { id: user.id },
-      returning: true
-    });
-  }
-
+export const create = (user) => {
   return User.create(user);
 };

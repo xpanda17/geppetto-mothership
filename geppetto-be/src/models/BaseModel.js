@@ -6,6 +6,8 @@ export class BaseModel extends Model {}
 export const baseAttributes = {
   createdAt: {
     type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
     get() {
       // Converts the DB date into a Luxon object
       const rawValue = this.getDataValue('createdAt');
@@ -14,6 +16,8 @@ export const baseAttributes = {
   },
   updatedAt: {
     type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
     get() {
       const rawValue = this.getDataValue('updatedAt');
       return rawValue ? DateTime.fromJSDate(rawValue) : null;
