@@ -2,6 +2,8 @@ import _ from 'lodash';
 import express from 'express';
 import { z } from 'zod';
 import sequelize from '#config/db';
+import { ROLES } from '#constants/role'
+import { authorize } from '#middlewares/auth';
 import logger from '#utils/logger';
 
 import userRoutesV1 from '#routes/v1/user';
@@ -12,6 +14,12 @@ app.use(express.json());
 // Routes
 app.use('/v1/users', userRoutesV1);
 
+app.get('/protected-admin', authorize([ROLES.ADMIN]), (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
+app.get('/protected-auth', authorize(), (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
 app.get('/healthz', (req, res) => {
   res.status(200).json({ status: 'ok' });
 });

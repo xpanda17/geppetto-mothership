@@ -1,8 +1,6 @@
 import { ROLES } from '#constants/role';
-import User from '#models/User';
 import * as userQueries from '#queries/user';
 import { hashPassword } from '#utils/password';
-import { ValidationError } from 'sequelize';
 
 /**
  * Creates a new user with STAFF role.
