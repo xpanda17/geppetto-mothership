@@ -15,3 +15,7 @@
 <br><br>
 ```docker-compose down```
 <li>down: stop AND remove the containers.
+
+<br><br>
+```sudo kill -9 $(sudo docker inspect --format '{{.State.Pid}}' geppetto-be)```
+<li>Temporary way to kill the docker container
