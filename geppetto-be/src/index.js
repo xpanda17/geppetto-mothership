@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import express from 'express';
+import { z } from 'zod';
 import sequelize from '#config/db';
 import logger from '#utils/logger';
 
@@ -17,10 +18,19 @@ app.get('/healthz', (req, res) => {
 
 // Global Error Handler
 app.use((err, req, res, next) => {
-  const statusCode = err.status || 500;
-  const message = err.message || 'Internal Server Error';
+  let statusCode;
+  let message;
 
-  if (_.isNil(err.status)) {
+  if (err instanceof z.ZodError) {
+    statusCode = 422;
+    message = 'Validation Error';
+  } else {
+    statusCode = err.status;
+    message = err.message || 'Internal Server Error';
+  }
+
+  if (_.isNil(statusCode)) {
+    statusCode = 500;
     logger.error(`Unexpected error occurs: ${JSON.stringify(err.stack)}`);
   }
 
@@ -30,12 +40,6 @@ app.use((err, req, res, next) => {
     message: message,
     // Only show stack trace in development
     stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
-  });
-
-
-  res.status(500).json({
-    success: false,
-    message: 'Internal Server Error',
   });
 });
 

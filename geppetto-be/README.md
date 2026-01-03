@@ -19,3 +19,7 @@
 <br><br>
 ```sudo kill -9 $(sudo docker inspect --format '{{.State.Pid}}' geppetto-be)```
 <li>Temporary way to kill the docker container
+
+<br><br>
+```docker exec -it {{containerName}} bash```
+<li>Go inside docker container
