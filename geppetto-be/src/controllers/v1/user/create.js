@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import * as createUserService from '#services/user/create';
+import asyncHandler from '#utils/async-handler';
 
 const createUserRequestDTO = z.object({
   username: z.string().min(1, 'Username is required'),
@@ -7,7 +8,7 @@ const createUserRequestDTO = z.object({
   password: z.string().min(8, 'Password must be at least 8 characters long'),
 });
 
-export const createUser = async (req, res, next) => {
+export const createUser = asyncHandler(async (req, res, next) => {
   const requestDTO = createUserRequestDTO.parse(req.body);
 
   const newUser = await createUserService.createUser(requestDTO);
@@ -16,4 +17,4 @@ export const createUser = async (req, res, next) => {
     success: true,
     data: newUser
   });
-};
+});

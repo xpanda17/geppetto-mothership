@@ -5,6 +5,10 @@ import { ROLES } from '#constants/role'
 
 const router = express.Router();
 
-router.post('/', authorize([ROLES.ADMIN]), createUser);
+router.post(
+    '/',
+    // authorize([ROLES.ADMIN]),
+    createUser
+);
 
 export default router;
