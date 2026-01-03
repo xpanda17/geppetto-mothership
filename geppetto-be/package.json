@@ -4,13 +4,14 @@
   "type": "module",
   "imports": {
     "#config/*": "./src/config/*.js",
+    "#constants/*": "./src/constants/*.js",
     "#controllers/*": "./src/controllers/*.js",
-    "#services/*": "./src/services/*.js",
+    "#errors/*": "./src/errors/*.js",
+    "#middlewares/*": "./src/middlewares/*.js",
     "#models/*": "./src/models/*.js",
     "#queries/*": "./src/queries/*.js",
-    "#mappers/*": "./src/mappers/*.js",
-    "#helpers/*": "./src/helpers/*.js",
     "#routes/*": "./src/routes/*.js",
+    "#services/*": "./src/services/*.js",
     "#utils/*": "./src/utils/*.js"
   },
   "scripts": {
@@ -18,8 +19,11 @@
     "dev": "nodemon src/index.js"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.3",
+    "lodash": "^4.17.21",
     "luxon": "^3.7.2",
     "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",
