@@ -18,16 +18,16 @@ app.get('/healthz', (req, res) => {
 
 // Global Error Handler
 app.use((err, req, res, next) => {
-  let statusCode;
-  let message;
-
   if (err instanceof z.ZodError) {
-    statusCode = 422;
-    message = 'Validation Error';
-  } else {
-    statusCode = err.status;
-    message = err.message || 'Internal Server Error';
+    return res.status(422).json({
+      success: false,
+      message: 'Validation Error',
+      errors: z.treeifyError(err),
+    });
   }
+
+  let statusCode = err.status;
+  const message = err.message || 'Internal Server Error';
 
   if (_.isNil(statusCode)) {
     statusCode = 500;
