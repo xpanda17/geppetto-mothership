@@ -1,11 +1,29 @@
 version: '3.8'
 services:
+  api:
+    build: .
+    container_name: geppetto-be
+    restart: on-failure
+    ports:
+      # LOCAL port : CONTAINER port
+      - "${PORT}:${PORT}"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
   db:
-    image: postgres:15
+    image: postgres:18-alpine
+    container_name: geppetto-db
     restart: always
     environment:
-      POSTGRES_USER: user_admin
-      POSTGRES_PASSWORD: password123
-      POSTGRES_DB: node_api_db
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     ports:
-      - "5432:5432"
+      - "${DB_PORT}:${DB_PORT}"
+
+volumes:
+  pgdata:
