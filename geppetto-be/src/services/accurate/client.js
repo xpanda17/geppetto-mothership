@@ -15,7 +15,7 @@ const apiClient = axios.create({
   }
 });
 
-const getAccurateHeaders = () => {
+const buildAuthHeaders = () => {
   const timestamp = new Date().toISOString();
   const hash = CryptoJS.HmacSHA256(timestamp, SIGNATURE_SECRET);
   const signature = CryptoJS.enc.Base64.stringify(hash);
@@ -23,8 +23,7 @@ const getAccurateHeaders = () => {
   return {
     'Authorization': `Bearer ${API_TOKEN}`,
     'X-Api-Timestamp': timestamp,
-    'X-Api-Signature': signature,
-    'Content-Type': 'application/json'
+    'X-Api-Signature': signature
   };
 };
 
@@ -33,7 +32,7 @@ export const getApiToken = async () => {
     const response = await apiClient.post(
         '/api-token.do',
         {},
-        { headers: getAccurateHeaders() }
+        { headers: buildAuthHeaders() }
     );
 
     return response;
@@ -41,12 +40,4 @@ export const getApiToken = async () => {
     console.error('Error fetching database host:', error.response?.data || error.message);
     throw error;
   }
-};
-
-/**
- * Service function to fetch data from external API
- */
-export const fetchExternalData = async (payload) => {
-  const response = await apiClient.post('/endpoint', payload);
-  return response.data;
 };

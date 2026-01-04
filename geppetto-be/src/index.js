@@ -7,12 +7,14 @@ import { authorize } from '#middlewares/auth';
 import logger from '#utils/logger';
 
 import userRoutesV1 from '#routes/v1/user';
+import productRoutesV1 from '#routes/v1/product';
 
 const app = express();
 app.use(express.json());
 
 // Routes
 app.use('/v1/users', userRoutesV1);
+app.use('/v1/products', productRoutesV1);
 
 app.get('/protected-admin', authorize([ROLES.ADMIN]), (req, res) => {
   res.status(200).json({ status: 'ok' });
