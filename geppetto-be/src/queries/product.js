@@ -22,9 +22,11 @@ export const findByProductNumber = (productNumber) => {
   });
 };
 
-export const upsert = async (productData) => {
+export const upsert = async (productData, options = {}) => {
   const [product, created] = await Product.upsert(productData, {
-    returning: true
+    returning: true,
+    ...options
   });
+
   return product;
 };
