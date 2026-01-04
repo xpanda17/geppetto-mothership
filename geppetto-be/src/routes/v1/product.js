@@ -1,5 +1,6 @@
 import express from 'express';
 import { syncProduct } from '#controllers/v1/product/sync';
+import { getProducts } from '#controllers/v1/product/get-all';
 import { authorize } from '#middlewares/auth';
 import { ROLES } from '#constants/role'
 
@@ -10,5 +11,7 @@ router.post(
     authorize([ROLES.ADMIN]),
     syncProduct
 );
+
+router.get('/', authorize(), getProducts);
 
 export default router;
