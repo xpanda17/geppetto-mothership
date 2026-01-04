@@ -6,17 +6,11 @@ class Product extends BaseModel {}
 
 Product.init({
   ...baseAttributes,
-  // Mapping 'id' from the JSON (36759) as the primary key
-  // If you prefer to use your own UUIDs, you can rename this to 'accurateId'
-  id: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-    primaryKey: true
-  },
   accurateProductId: {
     type: DataTypes.TEXT,
     allowNull: false,
     unique: true,
+    primaryKey: true
   },
   productNumber: {
     type: DataTypes.TEXT,

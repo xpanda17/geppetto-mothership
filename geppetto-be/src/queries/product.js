@@ -1,10 +1,12 @@
 import Product from '#models/Product';
 
-export const findAllActiveProducts = () => {
+export const findAllActiveProducts = (criteria) => {
   return Product.findAll({
     where: {
+      ...criteria,
       active: true
     },
+    order: [['name', 'ASC']]
   });
 };
 

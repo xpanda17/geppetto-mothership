@@ -1,6 +1,5 @@
 CREATE TABLE IF NOT EXISTS "products" (
-    "id" UUID PRIMARY KEY,
-    "accurate_product_id" TEXT NOT NULL,
+    "accurate_product_id" TEXT PRIMARY KEY,
     "product_number" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "item_type" TEXT NOT NULL,
