@@ -25,7 +25,11 @@ apiClient.interceptors.response.use(
 
       return response.data;
     },
-    (error) => {
+    async (error) => {
+      if (error.response && error.response.status === 308) {
+        await redisClient.del('ACCURATE_API_HOST');
+      }
+
       if (error.response) {
         throw new AccurateError(error.response);
       }
@@ -68,4 +72,17 @@ export const getApiHost = async () => {
   }
 
   return host;
+};
+
+export const getItemList = async () => {
+  const apiHost = await getApiHost();
+
+  const response = await apiClient.get(
+      `${apiHost}/accurate/api/item/list.do`,
+      {
+        headers: buildAuthHeaders(),
+        params: {}
+      });
+
+  return response;
 };
