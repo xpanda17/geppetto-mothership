@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET;
-const JWT_EXPIRES_IN_SECONDS = process.env.JWT_EXPIRES_IN_SECONDS || 900;
+const JWT_EXPIRES_IN_SECONDS = process.env.JWT_EXPIRES_IN || '15m';
 
 /**
  * Generates a signed JWT for a user
@@ -14,6 +14,8 @@ export const generateToken = (user) => {
     fullName: user.fullName,
     role: user.role
   };
+
+  console.log(JWT_EXPIRES_IN_SECONDS);
 
   return jwt.sign(payload, JWT_SECRET, {
     expiresIn: JWT_EXPIRES_IN_SECONDS

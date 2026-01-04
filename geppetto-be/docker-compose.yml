@@ -4,15 +4,15 @@ services:
     container_name: geppetto-be
     restart: on-failure
     ports:
-      # LOCAL port : CONTAINER port
       - "${PORT}:${PORT}"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
     env_file:
       - .env
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_started
+
   db:
     image: postgres:18-alpine
     container_name: geppetto-db
@@ -28,6 +28,18 @@ services:
       retries: 5
     ports:
       - "${VM_DB_PORT}:${CONTAINER_DB_PORT}"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: geppetto-redis
+    restart: always
+    ports:
+      - "${VM_REDIS_PORT}:${CONTAINER_REDIS_PORT}"
+    volumes:
+      - redisdata:/data
 
 volumes:
   pgdata:
+  redisdata:
