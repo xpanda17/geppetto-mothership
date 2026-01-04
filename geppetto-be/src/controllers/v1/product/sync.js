@@ -3,7 +3,9 @@ import asyncHandler from '#utils/async-handler';
 import {getApiHost} from "#services/accurate/client";
 
 export const syncProduct = asyncHandler(async (req, res, next) => {
-  const data = await accurateClient.getItemList();
+  const data = await accurateClient.getItemList({
+    page: 1
+  });
 
   return res.status(200).json({
     success: true,

@@ -74,14 +74,18 @@ export const getApiHost = async () => {
   return host;
 };
 
-export const getItemList = async () => {
+export const getItemList = async ({ page }) => {
   const apiHost = await getApiHost();
 
   const response = await apiClient.get(
       `${apiHost}/accurate/api/item/list.do`,
       {
         headers: buildAuthHeaders(),
-        params: {}
+        params: {
+          fields: 'id,no,name,availableToSell,vendorPrice,unitPrice,itemType,suspended',
+          ['sp.pageSize']: 100,
+          ['sp.page']: page,
+        }
       });
 
   return response;
