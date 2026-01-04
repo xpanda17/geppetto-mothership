@@ -15,8 +15,6 @@ export const generateToken = (user) => {
     role: user.role
   };
 
-  console.log(JWT_EXPIRES_IN_SECONDS);
-
   return jwt.sign(payload, JWT_SECRET, {
     expiresIn: JWT_EXPIRES_IN_SECONDS
   });
