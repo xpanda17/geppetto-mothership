@@ -1,7 +1,9 @@
+import _ from 'lodash';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
 
 import { AccurateError } from '#errors/accurrate-error';
+import redisClient from '#utils/redis';
 
 const SIGNATURE_SECRET = process.env.ACCURATE_SIGNATURE_SECRET;
 const API_TOKEN = process.env.ACCURATE_API_TOKEN;
@@ -21,7 +23,7 @@ apiClient.interceptors.response.use(
         throw new AccurateError(response);
       }
 
-      return response;
+      return response.data;
     },
     (error) => {
       if (error.response) {
@@ -44,12 +46,26 @@ const buildAuthHeaders = () => {
   };
 };
 
-export const getApiToken = async () => {
+export const getApiHost = async () => {
+  const cachedHost = await redisClient.get('ACCURATE_API_HOST');
+
+  if (cachedHost) {
+    return cachedHost;
+  }
+
   const response = await apiClient.post(
       `https://account.accurate.id/api/api-token.do`,
       {},
       { headers: buildAuthHeaders() }
   );
 
-  return response;
+  const host = _.get(response, 'd.database.host');
+
+  if (!_.isNil(host)) {
+    await redisClient.set('ACCURATE_API_HOST', host, {
+      EX: 15 * 60 // 15 minutes
+    });
+  }
+
+  return host;
 };
