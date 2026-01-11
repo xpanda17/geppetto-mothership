@@ -13,6 +13,14 @@ handlebars.registerHelper('formatCurrency', (value) => {
   }).format(value);
 });
 
+const PUPPETEER_BROWSER = await puppeteer.launch({
+  args: [
+    '--no-sandbox',
+    '--disable-setuid-sandbox',
+    '--disable-dev-shm-usage'
+  ]
+});
+
 const generateHtml = async (products) => {
   const templatePath = path.resolve('./src/templates/catalog.hbs');
   const templateHtml = await fs.readFile(templatePath, 'utf-8');
@@ -28,22 +36,21 @@ const generateHtml = async (products) => {
 }
 
 const convertHtmlToPdf = async (html) => {
-  const browser = await puppeteer.launch({
-    args: ['--no-sandbox']
-  });
-  const page = await browser.newPage();
+  const page = await PUPPETEER_BROWSER.newPage();
 
-  await page.setContent(html, { waitUntil: 'networkidle0' });
+  try {
+    await page.setContent(html, { waitUntil: 'load' });
 
-  const pdfBuffer = await page.pdf({
-    format: 'A4',
-    printBackground: true,
-    margin: { top: '10mm', bottom: '10mm', left: '10mm', right: '10mm' }
-  });
+    const pdfBuffer = await page.pdf({
+      format: 'A4',
+      printBackground: true,
+      margin: { top: '10mm', bottom: '10mm', left: '10mm', right: '10mm' }
+    });
 
-  await browser.close();
-
-  return pdfBuffer;
+    return pdfBuffer;
+  } finally {
+    await page.close();
+  }
 };
 
 export const generateCatalogPdf = async () => {
