@@ -24,11 +24,6 @@ RUN apt-get update && apt-get install -y \
     --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
-# 2. Set environment variable to skip the automatic download of Chromium
-# inside Puppeteer if you prefer to use the system-installed one,
-# but usually, keeping the Puppeteer-downloaded one is safer for version matching.
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=false
-
 WORKDIR /usr/src/app
 
 COPY package*.json ./
