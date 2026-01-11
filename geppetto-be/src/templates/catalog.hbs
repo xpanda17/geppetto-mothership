@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: 'Helvetica', sans-serif; margin: 0; padding: 10mm; }
+        .page-container { width: 100%; }
+        h1 { text-transform: uppercase; border-bottom: 1px solid #eee; padding-bottom: 10px; font-weight: 300; }
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        .card {
+            border: 1px solid #e0e0e0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            break-inside: avoid;
+        }
+        .image-placeholder {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background-color: #f0f0f0;
+            margin-bottom: 10px;
+        }
+        .image-placeholder img { width: 100%; height: 100%; object-fit: cover; }
+        .text-box {
+            border: 1px solid #ddd;
+            padding: 8px;
+            font-size: 11px;
+            min-height: 50px;
+        }
+        .price { color: #2c3e50; font-weight: bold; margin-top: 5px; display: block; }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <h1>Product Catalog</h1>
+        <div class="catalog-grid">
+            {{#each products}}
+            <div class="card">
+                <div class="image-placeholder">
+                    <img src="{{#if imageUrl}}{{imageUrl}}{{else}}https://via.placeholder.com/150{{/if}}" alt="{{name}}">
+                </div>
+                <div class="text-box">
+                    <strong>{{productNumber}}</strong><br>
+                    {{name}}<br>
+                    <span class="price">{{formatCurrency sellingPrice}}</span>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</body>
+</html>
