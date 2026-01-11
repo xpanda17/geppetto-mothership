@@ -17,7 +17,12 @@ const generateHtml = async (products) => {
   const templatePath = path.resolve('./src/templates/catalog.hbs');
   const templateHtml = await fs.readFile(templatePath, 'utf-8');
   const compileTemplate = handlebars.compile(templateHtml);
-  const finalHtml = compileTemplate({ products });
+  const finalHtml = compileTemplate({
+    products
+  }, {
+    allowProtoPropertiesByDefault: true,
+    allowProtoMethodsByDefault: true
+  });
 
   return finalHtml;
 }
